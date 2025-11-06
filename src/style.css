@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
 @utility nav-btn {
-    @apply cursor-pointer hover:font-bold
+  @apply cursor-pointer hover:font-bold;
+}
+
+@utility btn {
+  @apply w-fit rounded-md cursor-pointer px-6 py-3 border border-white;
 }

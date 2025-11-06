@@ -6,29 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chimdindu @ 11</title>
   </head>
-  <body>
-    <nav class="flex justify-center gap-4 p-4 bg-gray-900 text-white [&_button]:nav-btn">
+  <body class="bg-linear-to-br from-sky-950 via-slate-950 to-indigo-950 text-white">
+    <nav class="flex justify-center gap-4 p-4 bg-cyan-500/5 text-white [&_button]:nav-btn">
       <button id="nav-home">Home</button>
       <button id="nav-games">Games</button>
       <button id="nav-messages">Messages</button>
     </nav>
 
-    <section id="home" class="flex flex-col justify-center items-center p-8 bg-gray-800 text-center space-y-6 h-[calc(100dvh-3.5rem)]">
+    <section id="home" class="flex flex-col justify-center items-center p-8 text-center space-y-6 h-[calc(100dvh-3.5rem)]">
       <h1 class="text-4xl font-extrabold text-red-400">Happy Birthday, DinDin! 🎉❤️</h1>
       <p class="max-w-xl mx-auto text-lg text-gray-200">
         You’re officially 11! I’m so proud of the kind, funny, smart gamer boy you’re growing into.
         Here’s a little website I built just for you ❤️
       </p>
-      <button id="celebrate-btn" class="px-6 py-3 w-fit bg-red-600 text-white rounded-xl hover:bg-red-700 transition">
+      <button id="celebrate-btn" class="btn border-none bg-red-600 text-white hover:bg-red-700 transition">
         Celebrate!
       </button>
       <canvas id="confettiCanvas" class="absolute top-0 left-0 w-full h-full pointer-events-none"></canvas>
       <script type="module" src="/src/pages/home.ts"></script>
     </section>
-    <section id="games" class="hidden">
-      <p>The games</p>
+    <section id="games" class="hidden flex-col justify-center items-center p-8 text-center space-y-6 h-[calc(100dvh-3.5rem)]">
+      <div class="space-y-6">
+        <h1 class="text-3xl font-bold text-center text-red-500">Games Arcade</h1>
+        <div class="flex justify-center gap-4">
+          <button id="play-clicker" class="nav-btn btn">Speed Clicker</button>
+          <button id="play-guess" class="nav-btn btn">Guess the Number</button>
+        </div>
+        <div id="game-container" class="p-4"></div>
+      </div>
     </section>
-    <section id="messages" class="hidden">
+    <section id="messages" class="hidden flex-col justify-center items-center p-8 text-center space-y-6 h-[calc(100dvh-3.5rem)]">
       <p>The message board</p>
     </section>
 
