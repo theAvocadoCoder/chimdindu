@@ -1,6 +1,7 @@
 import "./style.css";
 import { initHome } from "./pages/home";
 import { initGames } from "./pages/games";
+import { initMessages } from "./pages/messages";
 
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(`[id^="nav-"]`).forEach(nav => {
@@ -9,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   initHome();
   initGames();
+  initMessages();
 })
 
 function showSection(e: Event) {
