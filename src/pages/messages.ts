@@ -32,25 +32,37 @@ export function initMessages() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(msgs));
   }
 
+  function deleteMessage(btn: Element) {
+    const div = list.querySelector(`div:has( #${btn.id})`);
+    if (div) {
+      if (confirm(`Delete this message? "${div.querySelector("p")?.textContent}"`)) {
+        const msgs = getMessages();
+        saveMessages(msgs.filter(m => m.id !== div.id));
+        renderMessages();
+      }
+    }
+  }
+
   function renderMessages() {
     const msgs = getMessages();
     list.innerHTML = msgs
       .map(
-        (m) => `
+        (m, i) => `
         <div id="${m.id}" class="p-2 bg-gray-800 rounded-sm mb-2 relative">
           <p>${m.text}</p>
           <span class="text-xs text-gray-400">${m.date}</span>
-          <button class="delete-btn">Delete</button>
+          <button id="del-${i}" class="delete-btn btn border-none p-0 absolute right-2 text-red-400 font-bold">Delete</button>
         </div>`
       )
       .join("");
+    
+    list.querySelectorAll(".delete-btn").forEach(btn => btn.addEventListener("click", () => deleteMessage(btn)))
   }
 
   section.querySelector("#postBtn")?.addEventListener("click", () => {
     const text = input.value.trim();
     if (!text) return;
     const msgs = getMessages();
-    console.log(Object.keys(crypto))
     msgs.push({ id: crypto.randomUUID?.() ?? `id-${Date.now().toString()}-${Math.random().toString(36).substring(2, 8)}`, text, date: new Date().toLocaleString() });
     saveMessages(msgs);
     input.value = "";
@@ -65,8 +77,4 @@ export function initMessages() {
   });
 
   renderMessages();
-  list.querySelectorAll(".delete-btn").forEach(btn => btn.addEventListener("click", () => {
-    const div = list.querySelector(`div:has(#${btn.id})`)
-    console.log(div?.id, "has been selected")
-  }))
 }
