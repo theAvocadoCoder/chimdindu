@@ -1,16 +1,16 @@
-interface Message {
+interface Note {
   id: string;
   text: string;
   date: string;
 }
 
-const STORAGE_KEY = "messages";
+const STORAGE_KEY = "notes";
 
-export function initMessages() {
-  const section = document.getElementById("messages")!;
+export function initNotes() {
+  const section = document.getElementById("notes")!;
   section.innerHTML = `
     <div class="w-full max-w-xl flex flex-col justify-center gap-4 my-4 text-center">
-      <h2 class="text-2xl font-bold text-red-500">Message Board</h2>
+      <h2 class="text-2xl font-bold text-red-500">Your Personal Notes</h2>
       <textarea id="msgInput" class="w-full h-24 p-2 border rounded-md"
         placeholder="Write something fun..."></textarea>
       <div class="flex justify-center gap-4">
@@ -24,27 +24,27 @@ export function initMessages() {
   const input = section.querySelector("#msgInput") as HTMLTextAreaElement;
   const list = section.querySelector("#msgList") as HTMLElement;
 
-  function getMessages(): Message[] {
+  function getNotes(): Note[] {
     return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
   }
 
-  function saveMessages(msgs: Message[]) {
+  function saveNotes(msgs: Note[]) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(msgs));
   }
 
-  function deleteMessage(btn: Element) {
+  function deleteNote(btn: Element) {
     const div = list.querySelector(`div:has( #${btn.id})`);
     if (div) {
-      if (confirm(`Delete this message? "${div.querySelector("p")?.textContent}"`)) {
-        const msgs = getMessages();
-        saveMessages(msgs.filter(m => m.id !== div.id));
-        renderMessages();
+      if (confirm(`Delete this note? "${div.querySelector("p")?.textContent}"`)) {
+        const msgs = getNotes();
+        saveNotes(msgs.filter(m => m.id !== div.id));
+        renderNotes();
       }
     }
   }
 
-  function renderMessages() {
-    const msgs = getMessages();
+  function renderNotes() {
+    const msgs = getNotes();
     list.innerHTML = msgs
       .map(
         (m, i) => `
@@ -56,25 +56,25 @@ export function initMessages() {
       )
       .join("");
     
-    list.querySelectorAll(".delete-btn").forEach(btn => btn.addEventListener("click", () => deleteMessage(btn)))
+    list.querySelectorAll(".delete-btn").forEach(btn => btn.addEventListener("click", () => deleteNote(btn)))
   }
 
   section.querySelector("#postBtn")?.addEventListener("click", () => {
     const text = input.value.trim();
     if (!text) return;
-    const msgs = getMessages();
+    const msgs = getNotes();
     msgs.push({ id: crypto.randomUUID?.() ?? `id-${Date.now().toString()}-${Math.random().toString(36).substring(2, 8)}`, text, date: new Date().toLocaleString() });
-    saveMessages(msgs);
+    saveNotes(msgs);
     input.value = "";
-    renderMessages();
+    renderNotes();
   });
 
   section.querySelector("#clearBtn")?.addEventListener("click", () => {
-    if (confirm("Clear all messages?")) {
+    if (confirm("Clear all notes?")) {
       localStorage.removeItem(STORAGE_KEY);
-      renderMessages();
+      renderNotes();
     }
   });
 
-  renderMessages();
+  renderNotes();
 }
